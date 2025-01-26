@@ -9,12 +9,9 @@ class GetStartedPage extends StatefulWidget {
   _GetStartedPageState createState() => _GetStartedPageState();
 }
 
-class _GetStartedPageState extends State<GetStartedPage>
-    with SingleTickerProviderStateMixin {
+class _GetStartedPageState extends State<GetStartedPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-  late AnimationController _buttonAnimationController;
-  late Animation<double> _buttonAnimation;
 
   final List<String> _images = [
     'assets/images/image1.jpg',
@@ -26,28 +23,6 @@ class _GetStartedPageState extends State<GetStartedPage>
   void initState() {
     super.initState();
     _startAutoScroll();
-
-    _buttonAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    );
-
-    _buttonAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-      CurvedAnimation(
-        parent: _buttonAnimationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    _buttonAnimationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _buttonAnimationController.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        _buttonAnimationController.forward();
-      }
-    });
-
-    _buttonAnimationController.forward();
   }
 
   void _startAutoScroll() {
@@ -66,7 +41,6 @@ class _GetStartedPageState extends State<GetStartedPage>
   @override
   void dispose() {
     _pageController.dispose();
-    _buttonAnimationController.dispose();
     super.dispose();
   }
 
@@ -77,7 +51,21 @@ class _GetStartedPageState extends State<GetStartedPage>
       body: SafeArea(
         child: Column(
           children: [
-          
+       
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                "INNOV",
+                style: TextStyle(
+                  fontSize: 28, // Taille réduite
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                  letterSpacing: 2,
+                ),
+              ),
+            ),
+
+            // Contenu principal
             Flexible(
               flex: 3,
               child: Stack(
@@ -117,7 +105,7 @@ class _GetStartedPageState extends State<GetStartedPage>
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  const LoginPage()),
+                              builder: (context) => const LoginPage()),
                         );
                       },
                       child: const Text(
@@ -133,7 +121,7 @@ class _GetStartedPageState extends State<GetStartedPage>
               ),
             ),
 
-          
+            // Texte descriptif et bouton
             Flexible(
               flex: 2,
               child: Column(
@@ -181,30 +169,28 @@ class _GetStartedPageState extends State<GetStartedPage>
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: ScaleTransition(
-                      scale: _buttonAnimation,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
                         ),
-                        child: const Text(
-                          "Get Started",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 40),
+                      ),
+                      child: const Text(
+                        "Get Started",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -218,7 +204,6 @@ class _GetStartedPageState extends State<GetStartedPage>
     );
   }
 }
-
 
 class WaveClipper extends CustomClipper<Path> {
   @override
